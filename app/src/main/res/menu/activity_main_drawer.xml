@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Issue"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Latest Issue" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_Magazine"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="My Magazine" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="About Us" />
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/nav_privacy"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Privacy" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_SignIn"
+                android:icon="@drawable/ic_menu_share"
+                android:title="SignIn" />
+
+        </menu>
+    </item>
+
+</menu>
