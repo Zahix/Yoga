@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.zahid.yoga.Adapter.MagazineImageAdapter;
+import com.example.zahid.yoga.Fragments.AllMagazine;
+import com.example.zahid.yoga.Fragments.SpecificMagazine;
 import com.example.zahid.yoga.GetterSetter.Magazine;
 import com.example.zahid.yoga.utill.Common;
 import com.loopj.android.http.AsyncHttpClient;
@@ -104,11 +106,16 @@ public class MainActivity extends AppCompatActivity
                 CURRENT_FRAGMENT = 0;
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
-            }
 
-        else {
+        }
+
+        if(CURRENT_FRAGMENT == 0){
                 super.onBackPressed();
-            }
+        }
+        else {
+            super.onBackPressed();
+        }
+
 
 
     }
@@ -152,6 +159,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.content_frame, fragment);
             transaction.commit();
 
+
         } else if (id == R.id.nav_Magazine) {
             CURRENT_FRAGMENT = 1;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -192,24 +200,34 @@ public class MainActivity extends AppCompatActivity
 
                 try {
                     for (int i = 0; i < response.length(); i++) {
-                        Magazine magazine = new Magazine();
+                        final Magazine magazine = new Magazine();
                         JSONObject jsonObject = response.getJSONObject(i);
                         magazine.name = jsonObject.getString("name");
                         magazine.id = jsonObject.getString("id");
                         JSONObject thumbnailObject = jsonObject.getJSONObject("thumbnail");
                         magazine.bitmap = thumbnailObject.getString("link");
 
-                     //   URL url = new URL(link);
-                        //  Bitmap myBitmap = BitmapFactory.decodeStream((InputStream)url.openConnection().getInputStream());
-                        //    magazine.setImageView(myBitmap);
-                        // magazine = new Magazine();
-                        //magazine.setName(name);
+
                         magazines.add(magazine);
                         if (Common.firstThumbnail){
                             //get your value
                             String imglink = String.valueOf(magazine.bitmap);
                             Glide.with(context).load(imglink).into(Main_Magazine_Img);
                             Common.firstThumbnail = false;
+                            Main_Magazine_Img.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    int postId = Integer.parseInt(magazine.id);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("STUFF", postId);
+                                    CURRENT_FRAGMENT = 1;
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    Fragment fragment = new SpecificMagazine();
+                                    fragment.setArguments(bundle);
+                                    transaction.replace(R.id.content_frame, fragment);
+                                    transaction.commit();
+                                }
+                            });
                         }
 
 

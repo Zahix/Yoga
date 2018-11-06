@@ -5,104 +5,115 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.example.zahid.yoga.SpecificMagazine">
+    tools:context="com.example.zahid.yoga.Fragments.SpecificMagazine">
 
-
-    <RelativeLayout
-        android:id="@+id/imageView_layout"
-        android:layout_width="368dp"
-        android:layout_height="273dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:background="@color/colorAccent"
-            android:id="@+id/specific_magazine_Image"
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/text_layout"
-        android:layout_width="368dp"
-        android:layout_height="31dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_layout">
-
-        <TextView
-            android:id="@+id/specific_magazine_Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="September2018"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/specific_magazine_Price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/specific_magazine_Name"
-            android:layout_toEndOf="@+id/specific_magazine_Name"
-            android:layout_toRightOf="@+id/specific_magazine_Name"
-            android:text="Price:$1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:gravity="center"
-            android:textColor="@color/colorAccent"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="368dp"
-        android:layout_height="184dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_layout">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:id="@+id/imageView_layout"
+            android:layout_width="368dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/specific_magazine_Image"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorAccent" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/text_layout"
+            android:layout_width="368dp"
+            android:layout_height="0dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp">
+            android:layout_weight="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_layout">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/specific_magazine_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="September2018"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:id="@+id/specific_magazine_Price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_alignBottom="@+id/specific_magazine_Name"
+                android:layout_toEndOf="@+id/specific_magazine_Name"
+                android:layout_toRightOf="@+id/specific_magazine_Name"
+                android:gravity="center"
+                android:text="Price:$1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent" />
 
-                <TextView
-                    android:id="@+id/specific_magazine_Desc"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+        </RelativeLayout>
 
-        </ScrollView>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="368dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.2">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_subscribe"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="11dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/specific_magazine_Desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btn_subscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="SUBSCRIBE" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

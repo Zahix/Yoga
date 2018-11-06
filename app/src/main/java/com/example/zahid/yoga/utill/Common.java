@@ -6,4 +6,5 @@ package com.example.zahid.yoga.utill;
 
 public class Common {
     public static boolean firstThumbnail = true;
+    public static String loginStatus = "false" ;
 }

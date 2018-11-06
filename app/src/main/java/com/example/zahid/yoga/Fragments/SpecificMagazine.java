@@ -1,23 +1,17 @@
-package com.example.zahid.yoga;
+package com.example.zahid.yoga.Fragments;
 
-import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.zahid.yoga.Adapter.MagazineImageAdapter;
-import com.example.zahid.yoga.GetterSetter.Magazine;
+import com.example.zahid.yoga.R;
 import com.example.zahid.yoga.utill.Common;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -26,13 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import static android.provider.Contacts.SettingsColumns.KEY;
-
 public class SpecificMagazine extends android.support.v4.app.Fragment {
     private ImageView SpecificMagazineImage;
     private TextView SpecificMagazineName, SpecificMagazinePrice, SpecificMagazineDesc;
+    private Button Subscribe;
 
 
     View getView;
@@ -45,13 +36,41 @@ public class SpecificMagazine extends android.support.v4.app.Fragment {
         SpecificMagazinePrice = (TextView)getView.findViewById(R.id.specific_magazine_Price);
         SpecificMagazineDesc = (TextView)getView.findViewById(R.id.specific_magazine_Desc);
 
+        Subscribe = (Button)getView.findViewById(R.id.btn_subscribe);
+
 
         int id = getArguments().getInt("STUFF");
 
         getSpecificMagazine(id);
+
+        Subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(Common.loginStatus.equals("false")){
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    android.support.v4.app.Fragment fragment = new LoginActivity();
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.commit();
+
+                }
+                else {
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    android.support.v4.app.Fragment fragment = new Subscription_Payment();
+                    transaction.replace(R.id.content_frame, fragment);
+                    transaction.commit();
+
+                }
+
+
+
+            }
+        });
+
+
+
         return getView;
-
-
 
     }
 

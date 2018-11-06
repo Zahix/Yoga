@@ -7,49 +7,51 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.zahid.yoga.MainActivity"
     tools:showIn="@layout/app_bar_main">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle_list"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="248dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/ad_Banners"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ad_Banners"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="4dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/main_magazine"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_list"
+                android:scrollbars="none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_below="@+id/main_magazine"
+                android:layout_centerHorizontal="true"/>
+            <ImageView
+                android:id="@+id/ad_Banners"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:layout_below="@+id/recycle_list"/>
 
-    <ImageView
-        android:id="@+id/main_magazine"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycle_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+
+
+
+
+
+
+
 
     <FrameLayout
+        android:background="@android:color/white"
         android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

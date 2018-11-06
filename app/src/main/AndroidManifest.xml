@@ -20,8 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllMagazine"></activity>
-        <activity android:name=".SpecificMagazine"></activity>
+        <!--<activity android:name=".LoginActivity"></activity>-->
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.zahid.yoga.CustomItemClickListener;
 import com.example.zahid.yoga.GetterSetter.Magazine;
 import com.example.zahid.yoga.R;
 
@@ -27,8 +28,18 @@ public class All_MagazineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater inflater;
     List<Magazine> magazines = Collections.emptyList();
     Magazine current;
-    int currentPos=0;
 
+    CustomItemClickListener listener;
+
+
+
+
+    public All_MagazineAdapter(Context context, List<Magazine> magazines, CustomItemClickListener listener){
+        this.context = context;
+        inflater= LayoutInflater.from(context);
+        this.magazines = magazines;
+        this.listener = listener;
+    }
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
@@ -42,17 +53,17 @@ public class All_MagazineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public All_MagazineAdapter(Context context, List<Magazine> magazines){
-        this.context = context;
-        inflater= LayoutInflater.from(context);
-        this.magazines = magazines;
-    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.all_magazine_list, parent, false);
-        All_MagazineAdapter.MyHolder holder = new All_MagazineAdapter.MyHolder(itemView);
+        final MyHolder holder = new MyHolder(itemView);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(view,holder.getPosition());
+            }
+        });
         return holder;
     }
 

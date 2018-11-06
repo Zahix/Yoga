@@ -1,0 +1,139 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zahid.yoga.Fragments.Subscription_Payment">
+
+    <RelativeLayout
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/SUBSCRIPTION_layout"
+            android:padding="10dp"
+            android:background="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUBSCRIPTION-PAYMENT"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:padding="50dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SUBSCRIPTION_layout"
+            >
+            <ImageView
+                android:background="@color/colorAccent"
+                android:id="@+id/img_sub_magazine"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_centerVertical="true"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/img_sub_magazine"
+                android:layout_toRightOf="@+id/img_sub_magazine">
+
+                <TextView
+                    android:id="@+id/txt_sub_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="September2018"
+                    android:textSize="12sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_sub_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_sub_month"
+                    android:text="Price:£1.0"
+                    android:textSize="12sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/txt_sub_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_sub_price"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Sept issue"
+                    android:textSize="10sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/txt_sub_terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_sub_desc"
+                    android:text="SUBSCRIPTION TERMS"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_sub_terms" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUBSCRIPTION-PAYMENT"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_paynow"
+            android:text="PAY NOW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>
