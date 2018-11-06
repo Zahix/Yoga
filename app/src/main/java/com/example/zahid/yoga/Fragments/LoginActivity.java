@@ -22,7 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends android.support.v4.app.Fragment {
+public class LoginActivity extends android.app.Fragment {
 
     private EditText email,password;
     private Button Login;

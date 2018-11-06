@@ -1,5 +1,6 @@
 package com.example.zahid.yoga;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.zahid.yoga.Adapter.MagazineImageAdapter;
 import com.example.zahid.yoga.Fragments.AllMagazine;
+import com.example.zahid.yoga.Fragments.MainFragment;
 import com.example.zahid.yoga.Fragments.SpecificMagazine;
 import com.example.zahid.yoga.GetterSetter.Magazine;
 import com.example.zahid.yoga.utill.Common;
@@ -41,11 +43,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Context context;
-    String name,BannerImglink, BannerWeblink ;
-    private RecyclerView recyclerView;
-    private MagazineImageAdapter magazineImageAdapter;
-    private List<Magazine> magazines ;
-    private Magazine magazine;
+//    String name,BannerImglink, BannerWeblink ;
+//    private RecyclerView recyclerView;
+//    private MagazineImageAdapter magazineImageAdapter;
+//    private List<Magazine> magazines ;
+//    private Magazine magazine;
 
     private ImageView Ad_Banner_Img, Main_Magazine_Img;
 
@@ -69,20 +71,29 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Ad_Banner_Img = (ImageView)findViewById(R.id.ad_Banners);
-        Ad_Banner_Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(BannerWeblink));
-                startActivity(intent);
-            }
-        });
+        FragmentManager manager = getFragmentManager();
+        android.app.FragmentTransaction transaction = manager.beginTransaction();
+        MainFragment mainFragment = new MainFragment();
+       // transaction.replace(R.id.content_frame, mainFragment);
+        transaction.add(R.id.content_frame,mainFragment, "Mainfragment");
+        transaction.addToBackStack(mainFragment.getClass().getName()).commit();
+        //transaction.commit();
 
-        Main_Magazine_Img = (ImageView)findViewById(R.id.main_magazine) ;
 
-        getMagzine();
-        getAdBanner();
+//        Ad_Banner_Img = (ImageView)findViewById(R.id.ad_Banners);
+//        Ad_Banner_Img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent=new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse(BannerWeblink));
+//                startActivity(intent);
+//            }
+//        });
+
+//        Main_Magazine_Img = (ImageView)findViewById(R.id.main_magazine) ;
+
+//        getMagzine();
+//        getAdBanner();
 
 
 
@@ -102,19 +113,39 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        if(CURRENT_FRAGMENT == 1){
-                CURRENT_FRAGMENT = 0;
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
+//        if(CURRENT_FRAGMENT == 1){
+//                CURRENT_FRAGMENT = 0;
+//                Intent intent = new Intent(this,MainActivity.class);
+//                startActivity(intent);
+//
+//        }
+//
+//        if(CURRENT_FRAGMENT == 0){
+//                super.onBackPressed();
+//        }
+//        else {
+//            super.onBackPressed();
+//        }
 
-        }
+//        FragmentManager manager = getFragmentManager();
+//        if(manager!= null){
+//            manager.popBackStack();
+//        }else {
+//            super.onBackPressed();
+//        }
 
-        if(CURRENT_FRAGMENT == 0){
-                super.onBackPressed();
-        }
-        else {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
             super.onBackPressed();
+            //additional code
+        } else {
+            getFragmentManager().popBackStack();
+
+
         }
+
+
 
 
 
@@ -154,18 +185,22 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_gallery) {
             CURRENT_FRAGMENT = 1;
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            Fragment fragment = new AllMagazine();
-            transaction.replace(R.id.content_frame, fragment);
-            transaction.commit();
+            FragmentManager manager = getFragmentManager();
+            manager.popBackStack();
+            android.app.FragmentTransaction transaction = manager.beginTransaction();
+            AllMagazine allMagazine = new AllMagazine();
+            transaction.add(R.id.content_frame, allMagazine);
+            transaction.addToBackStack(allMagazine.getClass().getName()).commit();
 
 
         } else if (id == R.id.nav_Magazine) {
             CURRENT_FRAGMENT = 1;
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            Fragment fragment = new AllMagazine();
-            transaction.replace(R.id.content_frame, fragment);
-            transaction.commit();
+            FragmentManager manager = getFragmentManager();
+            manager.popBackStack();
+            android.app.FragmentTransaction transaction = manager.beginTransaction();
+            AllMagazine allMagazine = new AllMagazine();
+            transaction.add(R.id.content_frame, allMagazine);
+            transaction.addToBackStack(allMagazine.getClass().getName()).commit();
 
         } else if (id == R.id.nav_about) {
 
@@ -182,150 +217,150 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public  void getMagzine(){
-        String url = "http://yogamagazine.online/services/public/magzine?api_token=CP26zgTXIfNltPbDYfl48uta7s4eHszdtYWBGjnywFlPuacgbDGQPEEQSEQp";
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new JsonHttpResponseHandler(){
-
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-
-                magazines = new ArrayList<Magazine>();
-
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        final Magazine magazine = new Magazine();
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        magazine.name = jsonObject.getString("name");
-                        magazine.id = jsonObject.getString("id");
-                        JSONObject thumbnailObject = jsonObject.getJSONObject("thumbnail");
-                        magazine.bitmap = thumbnailObject.getString("link");
-
-
-                        magazines.add(magazine);
-                        if (Common.firstThumbnail){
-                            //get your value
-                            String imglink = String.valueOf(magazine.bitmap);
-                            Glide.with(context).load(imglink).into(Main_Magazine_Img);
-                            Common.firstThumbnail = false;
-                            Main_Magazine_Img.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    int postId = Integer.parseInt(magazine.id);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("STUFF", postId);
-                                    CURRENT_FRAGMENT = 1;
-                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                    Fragment fragment = new SpecificMagazine();
-                                    fragment.setArguments(bundle);
-                                    transaction.replace(R.id.content_frame, fragment);
-                                    transaction.commit();
-                                }
-                            });
-                        }
-
-
-                    }
-                    Common.firstThumbnail = true;
-                    // initalize magazines********
-
-                    // magazine = new Magazine();
-
-                    // initalize RecyclerView********
-                    recyclerView = (RecyclerView)findViewById(R.id.recycle_list);
-                    magazineImageAdapter = new MagazineImageAdapter(MainActivity.this, magazines, new CustomItemClickListener() {
-                        @Override
-                        public void onItemClick(View v, int position) {
-
-                            int postId = Integer.parseInt(magazines.get(position).id);
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("STUFF", postId);
-                            CURRENT_FRAGMENT = 1;
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            Fragment fragment = new SpecificMagazine();
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.content_frame, fragment);
-                            transaction.commit();
-// set Fragmentclass Arguments
-//                            Fragmentclass fragobj = new Fragmentclass();
-//                            fragobj.setArguments(bundle);
-
-                        }
-                    });
-                    recyclerView.setAdapter(magazineImageAdapter);
-                    recyclerView.setHasFixedSize(true);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-//                    GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,2, GridLayoutManager.HORIZONTAL,false);
-//                    recyclerView.setLayoutManager(gridLayoutManager);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                super.onRetry(retryNo);
-            }
-        });
-    }
-
-    public  void  getAdBanner(){
-        String url = "http://yogamagazine.online/services/public/banners?api_token=CP26zgTXIfNltPbDYfl48uta7s4eHszdtYWBGjnywFlPuacgbDGQPEEQSEQp";
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new JsonHttpResponseHandler(){
-
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-
-                try {
-
-                        JSONObject jsonObject = response.getJSONObject(1);
-                        BannerImglink = jsonObject.getString("banner_img");
-                        BannerWeblink = jsonObject.getString("banner_link");
-                    Glide.with(context).load(BannerImglink).into(Ad_Banner_Img);
-
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                super.onRetry(retryNo);
-            }
-
-        });
-
-    }
+//    public  void getMagzine(){
+//        String url = "http://yogamagazine.online/services/public/magzine?api_token=CP26zgTXIfNltPbDYfl48uta7s4eHszdtYWBGjnywFlPuacgbDGQPEEQSEQp";
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get(url, new JsonHttpResponseHandler(){
+//
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+//                super.onSuccess(statusCode, headers, response);
+//
+//                magazines = new ArrayList<Magazine>();
+//
+//                try {
+//                    for (int i = 0; i < response.length(); i++) {
+//                        final Magazine magazine = new Magazine();
+//                        JSONObject jsonObject = response.getJSONObject(i);
+//                        magazine.name = jsonObject.getString("name");
+//                        magazine.id = jsonObject.getString("id");
+//                        JSONObject thumbnailObject = jsonObject.getJSONObject("thumbnail");
+//                        magazine.bitmap = thumbnailObject.getString("link");
+//
+//
+//                        magazines.add(magazine);
+//                        if (Common.firstThumbnail){
+//                            //get your value
+//                            String imglink = String.valueOf(magazine.bitmap);
+//                            Glide.with(context).load(imglink).into(Main_Magazine_Img);
+//                            Common.firstThumbnail = false;
+//                            Main_Magazine_Img.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    int postId = Integer.parseInt(magazine.id);
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putInt("STUFF", postId);
+//                                    CURRENT_FRAGMENT = 1;
+//                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                                    Fragment fragment = new SpecificMagazine();
+//                                    fragment.setArguments(bundle);
+//                                    transaction.replace(R.id.content_frame, fragment);
+//                                    transaction.commit();
+//                                }
+//                            });
+//                        }
+//
+//
+//                    }
+//                    Common.firstThumbnail = true;
+//                    // initalize magazines********
+//
+//                    // magazine = new Magazine();
+//
+//                    // initalize RecyclerView********
+//                    recyclerView = (RecyclerView)findViewById(R.id.recycle_list);
+//                    magazineImageAdapter = new MagazineImageAdapter(MainActivity.this, magazines, new CustomItemClickListener() {
+//                        @Override
+//                        public void onItemClick(View v, int position) {
+//
+//                            int postId = Integer.parseInt(magazines.get(position).id);
+//                            Bundle bundle = new Bundle();
+//                            bundle.putInt("STUFF", postId);
+//                            CURRENT_FRAGMENT = 1;
+//                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                            Fragment fragment = new SpecificMagazine();
+//                            fragment.setArguments(bundle);
+//                            transaction.replace(R.id.content_frame, fragment);
+//                            transaction.commit();
+//// set Fragmentclass Arguments
+////                            Fragmentclass fragobj = new Fragmentclass();
+////                            fragobj.setArguments(bundle);
+//
+//                        }
+//                    });
+//                    recyclerView.setAdapter(magazineImageAdapter);
+//                    recyclerView.setHasFixedSize(true);
+//                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//                    recyclerView.setLayoutManager(mLayoutManager);
+//                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+////                    GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,2, GridLayoutManager.HORIZONTAL,false);
+////                    recyclerView.setLayoutManager(gridLayoutManager);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                super.onFailure(statusCode, headers, throwable, errorResponse);
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                super.onRetry(retryNo);
+//            }
+//        });
+//    }
+//
+//    public  void  getAdBanner(){
+//        String url = "http://yogamagazine.online/services/public/banners?api_token=CP26zgTXIfNltPbDYfl48uta7s4eHszdtYWBGjnywFlPuacgbDGQPEEQSEQp";
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get(url, new JsonHttpResponseHandler(){
+//
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+//                super.onSuccess(statusCode, headers, response);
+//
+//                try {
+//
+//                        JSONObject jsonObject = response.getJSONObject(1);
+//                        BannerImglink = jsonObject.getString("banner_img");
+//                        BannerWeblink = jsonObject.getString("banner_link");
+//                    Glide.with(context).load(BannerImglink).into(Ad_Banner_Img);
+//
+//
+//
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                super.onFailure(statusCode, headers, throwable, errorResponse);
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                super.onRetry(retryNo);
+//            }
+//
+//        });
+//
+//    }
 
 //    public  void getMagzine(){
 //        String url = "http://yogamagazine.online/services/public/magzine?api_token=CP26zgTXIfNltPbDYfl48uta7s4eHszdtYWBGjnywFlPuacgbDGQPEEQSEQp";

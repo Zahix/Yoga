@@ -1,6 +1,9 @@
 package com.example.zahid.yoga.Fragments;
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,16 +23,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SpecificMagazine extends android.support.v4.app.Fragment {
+public class SpecificMagazine extends android.app.Fragment {
     private ImageView SpecificMagazineImage;
     private TextView SpecificMagazineName, SpecificMagazinePrice, SpecificMagazineDesc;
     private Button Subscribe;
 
-
+    Context context;
     View getView;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getView = inflater.inflate(R.layout.activity_specific_magazine, container,false);
+
+        context = getView.getContext();
 
         SpecificMagazineImage = (ImageView)getView.findViewById(R.id.specific_magazine_Image);
         SpecificMagazineName = (TextView)getView.findViewById(R.id.specific_magazine_Name);
@@ -48,18 +53,21 @@ public class SpecificMagazine extends android.support.v4.app.Fragment {
             public void onClick(View view) {
 
                 if(Common.loginStatus.equals("false")){
-
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    android.support.v4.app.Fragment fragment = new LoginActivity();
-                    transaction.replace(R.id.content_frame, fragment);
-                    transaction.commit();
+                    FragmentManager manager = getFragmentManager();
+                    manager.popBackStack();
+                    android.app.FragmentTransaction transaction = manager.beginTransaction();
+                    LoginActivity loginActivity = new LoginActivity();
+                    transaction.add(R.id.content_frame, loginActivity);
+                    transaction.addToBackStack(loginActivity.getClass().getName()).commit();
 
                 }
                 else {
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    android.support.v4.app.Fragment fragment = new Subscription_Payment();
-                    transaction.replace(R.id.content_frame, fragment);
-                    transaction.commit();
+                    FragmentManager manager = getFragmentManager();
+                    manager.popBackStack();
+                    android.app.FragmentTransaction transaction = manager.beginTransaction();
+                    Subscription_Payment subscription_payment = new Subscription_Payment();
+                    transaction.add(R.id.content_frame, subscription_payment);
+                    transaction.addToBackStack(subscription_payment.getClass().getName()).commit();
 
                 }
 
@@ -98,7 +106,7 @@ public class SpecificMagazine extends android.support.v4.app.Fragment {
                         SpecificMagazinePrice.setText("Price: £"+response.getString("price"));
                         JSONObject thumbnailObject = response.getJSONObject("thumbnail");
                         String imglink = thumbnailObject.getString("link");
-                        Glide.with(getContext()).load(imglink).into(SpecificMagazineImage);
+                        Glide.with(context).load(imglink).into(SpecificMagazineImage);
                         //magazine.id = jsonObject.getString("id");
                         //JSONObject thumbnailObject = jsonObject.getJSONObject("thumbnail");
                        // magazine.bitmap = thumbnailObject.getString("link");

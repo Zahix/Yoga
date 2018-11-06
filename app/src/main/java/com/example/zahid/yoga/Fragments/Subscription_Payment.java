@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.zahid.yoga.R;
 
 
-public class Subscription_Payment extends Fragment {
+public class Subscription_Payment extends android.app.Fragment {
 
 
     @Override

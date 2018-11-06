@@ -1,5 +1,6 @@
 package com.example.zahid.yoga.Fragments;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllMagazine extends android.support.v4.app.Fragment {
+public class AllMagazine extends android.app.Fragment {
 
     Context context;
     String name,link ;
@@ -44,7 +45,7 @@ public class AllMagazine extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getView = inflater.inflate(R.layout.activity_all_magazine, container,false);
-
+        context = getView.getContext();
         getMagzine();
         return getView;
 
@@ -95,18 +96,20 @@ public class AllMagazine extends android.support.v4.app.Fragment {
 
                     // initalize RecyclerView********
                     recyclerView = (RecyclerView) getView.findViewById(R.id.recycle_view);
-                    all_magazineAdapter = new All_MagazineAdapter(getContext(), magazines, new CustomItemClickListener() {
+                    all_magazineAdapter = new All_MagazineAdapter(context, magazines, new CustomItemClickListener() {
                         @Override
                         public void onItemClick(View v, int position) {
                             int postId = Integer.parseInt(magazines.get(position).id);
                             Bundle bundle = new Bundle();
                             bundle.putInt("STUFF", postId);
                             CURRENT_FRAGMENT = 1;
-                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            Fragment fragment = new SpecificMagazine();
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.content_frame, fragment);
-                            transaction.commit();
+                            FragmentManager manager = getFragmentManager();
+                            manager.popBackStack();
+                            android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            SpecificMagazine specificMagazine = new SpecificMagazine();
+                            specificMagazine.setArguments(bundle);
+                            transaction.add(R.id.content_frame, specificMagazine);
+                            transaction.addToBackStack(specificMagazine.getClass().getName()).commit();
                         }
                     });
                     recyclerView.setAdapter(all_magazineAdapter);
@@ -114,7 +117,7 @@ public class AllMagazine extends android.support.v4.app.Fragment {
 //                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
 //                    recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2, GridLayoutManager.VERTICAL,false);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false);
                     recyclerView.setLayoutManager(gridLayoutManager);
 
 
